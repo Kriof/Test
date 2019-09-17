@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Interview.Models;
+using Interview.Scripts.Services;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -9,6 +11,11 @@ namespace Interview.Controllers
 {
     public class ValuesController : ApiController
     {
+        ApplicationHelper _applicationHelper;
+        public ValuesController()
+        {
+            _applicationHelper = new ApplicationHelper();
+        }
         // GET api/values
         public IEnumerable<string> Get()
         {
@@ -16,24 +23,27 @@ namespace Interview.Controllers
         }
 
         // GET api/values/5
-        public string Get(int id)
+        public Application Get(int id)
         {
-            return "value";
+            return _applicationHelper.GetApplication(id).Result;
         }
 
         // POST api/values
-        public void Post([FromBody]string value)
+        public void Post([FromBody]Application value)
         {
+            var result = _applicationHelper.PostApplication(value).Result;
         }
 
         // PUT api/values/5
-        public void Put(int id, [FromBody]string value)
+        public void Put([FromBody]Application value)
         {
+            var result = _applicationHelper.PutApplication(value);
         }
 
         // DELETE api/values/5
-        public void Delete(int id)
+        public void Delete(Guid id)
         {
+            var result = _applicationHelper.RemoveApplication(id);
         }
     }
 }
